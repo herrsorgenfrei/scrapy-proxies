@@ -71,6 +71,8 @@ class RandomProxy(object):
             self.proxies[parts.group(1) + parts.group(3)] = user_pass
             self.chosen_proxy = parts.group(1) + parts.group(3)
 
+        self.proxies_backup = dict(self.proxies)
+
     @classmethod
     def from_crawler(cls, crawler):
         return cls(crawler.settings)
@@ -82,7 +84,8 @@ class RandomProxy(object):
                 return
         request.meta["exception"] = False
         if len(self.proxies) == 0:
-            raise ValueError('All proxies are unusable, cannot proceed')
+            self.proxies = dict(self.proxies_backup)
+            log.info("Reusing initial proxylist.")
 
         if self.mode == Mode.RANDOMIZE_PROXY_EVERY_REQUESTS:
             proxy_address = random.choice(list(self.proxies.keys()))
