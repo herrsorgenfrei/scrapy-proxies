@@ -23,7 +23,7 @@ import random
 import base64
 import logging
 
-log = logging.getLogger('scrapy.proxies')
+log = logging.getLogger()
 
 
 class Mode:
@@ -100,7 +100,7 @@ class RandomProxy(object):
             request.headers['Proxy-Authorization'] = basic_auth
         else:
             log.debug('Proxy user pass not found')
-        log.debug('Using proxy <%s>, %d proxies left' % (
+        log.info('Using proxy <%s>, %d proxies left' % (
                 proxy_address, len(self.proxies)))
 
     def process_exception(self, request, exception, spider):
