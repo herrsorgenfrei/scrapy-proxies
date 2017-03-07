@@ -100,7 +100,7 @@ class RandomProxy(object):
             request.headers['Proxy-Authorization'] = basic_auth
         else:
             log.debug('Proxy user pass not found')
-        log.info('Using proxy <%s>, %d proxies left' % (
+        log.debug('Using proxy <%s>, %d proxies left' % (
                 proxy_address, len(self.proxies)))
 
     def process_exception(self, request, exception, spider):
@@ -115,5 +115,5 @@ class RandomProxy(object):
             request.meta["exception"] = True
             if self.mode == Mode.RANDOMIZE_PROXY_ONCE:
                 self.chosen_proxy = random.choice(list(self.proxies.keys()))
-            log.info('Removing failed proxy <%s>, %d proxies left' % (
+            log.debug('Removing failed proxy <%s>, %d proxies left' % (
                 proxy, len(self.proxies)))
